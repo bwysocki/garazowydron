@@ -1,0 +1,71 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="drongarazowy [javafx:run]" type="MavenRunConfiguration" factoryName="Maven">
+    <MavenSettings>
+      <option name="myGeneralSettings">
+        <MavenGeneralSettings>
+          <option name="alwaysUpdateSnapshots" value="false" />
+          <option name="checksumPolicy" value="NOT_SET" />
+          <option name="customMavenHome" value="$USER_HOME$/.sdkman/candidates/maven/current" />
+          <option name="emulateTerminal" value="false" />
+          <option name="failureBehavior" value="NOT_SET" />
+          <option name="localRepository" value="$USER_HOME$/.sdkman/candidates/maven/current/repository" />
+          <option name="mavenHome" value="$USER_HOME$/.sdkman/candidates/maven/current" />
+          <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+          <option name="nonRecursive" value="false" />
+          <option name="outputLevel" value="INFO" />
+          <option name="printErrorStackTraces" value="false" />
+          <option name="showDialogWithAdvancedSettings" value="false" />
+          <option name="threads" />
+          <option name="useMavenConfig" value="true" />
+          <option name="userSettingsFile" value="$USER_HOME$/.sdkman/candidates/maven/current/conf/settings.xml" />
+          <option name="workOffline" value="false" />
+        </MavenGeneralSettings>
+      </option>
+      <option name="myRunnerSettings">
+        <MavenRunnerSettings>
+          <option name="delegateBuildToMaven" value="false" />
+          <option name="environmentProperties">
+            <map>
+              <entry key="JAVA_HOME" value="$USER_HOME$/.sdkman/candidates/java/current" />
+              <entry key="PATH" value="PATH=$JAVA_HOME/bin:$PATH" />
+            </map>
+          </option>
+          <option name="jreName" value="corretto-21" />
+          <option name="mavenProperties">
+            <map />
+          </option>
+          <option name="passParentEnv" value="true" />
+          <option name="runMavenInBackground" value="true" />
+          <option name="skipTests" value="false" />
+          <option name="vmOptions" value="" />
+        </MavenRunnerSettings>
+      </option>
+      <option name="myRunnerParameters">
+        <MavenRunnerParameters>
+          <option name="cmdOptions" />
+          <option name="profiles">
+            <set />
+          </option>
+          <option name="goals">
+            <list>
+              <option value="javafx:run" />
+            </list>
+          </option>
+          <option name="multimoduleDir" />
+          <option name="pomFileName" value="pom.xml" />
+          <option name="profilesMap">
+            <map>
+              <entry key="javafx-run" value="true" />
+            </map>
+          </option>
+          <option name="projectsCmdOptionValues">
+            <list />
+          </option>
+          <option name="resolveToWorkspace" value="false" />
+          <option name="workingDirPath" value="$PROJECT_DIR$" />
+        </MavenRunnerParameters>
+      </option>
+    </MavenSettings>
+    <method v="2" />
+  </configuration>
+</component>

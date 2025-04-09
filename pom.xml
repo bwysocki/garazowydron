@@ -32,6 +32,7 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<jSerialComm.version>2.6.2</jSerialComm.version>
 		<javafx-controls.version>21.0.2</javafx-controls.version>
+		<protobuf-java.version>3.25.6</protobuf-java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -60,6 +61,13 @@
 			<artifactId>javafx-graphics</artifactId>
 			<version>${javafx-controls.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>${protobuf-java.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -87,6 +95,13 @@
 	</profiles>
 
 	<build>
+		<extensions>
+			<extension>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>1.6.2</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -147,7 +162,7 @@
 					<execution>
 						<id>debug</id>
 						<configuration>
-							<mainClass>pl.stalostech.drongarazowy.seria.d001.Drone001</mainClass>
+							<mainClass>pl.stalostech.drongarazowy.seria.d001.Drone002</mainClass>
 							<options>
 								<option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
 							</options>
@@ -155,9 +170,28 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>pl.stalostech.drongarazowy.seria.d001.Drone001</mainClass>
+					<mainClass>pl.stalostech.drongarazowy.seria.d001.Drone002</mainClass>
  				</configuration>
-
+			</plugin>
+			<plugin>
+				<groupId>org.xolstice.maven.plugins</groupId>
+				<artifactId>protobuf-maven-plugin</artifactId>
+				<version>0.6.1</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<additionalProtoPathElements>
+						<additionalProtoPathElement>${project.basedir}/src/main/resources</additionalProtoPathElement>
+					</additionalProtoPathElements>
+					<protocArtifact>com.google.protobuf:protoc:3.7.0:exe:${os.detected.classifier}</protocArtifact>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

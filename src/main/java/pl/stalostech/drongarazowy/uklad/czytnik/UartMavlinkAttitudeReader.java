@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.stalostech.drongarazowy.funkcje.Hex;
 import pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkMessage;
 import pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkService;
 
@@ -11,9 +12,13 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+
+import static pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkMessage.MAVLINK_CHECKSUM_LEN;
+import static pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkMessage.MAVLINK_HEADER_LEN;
 
 
 @Service
@@ -49,7 +54,11 @@ public class UartMavlinkAttitudeReader extends SerialPortReader {
                         for (int i = 0; i < numBytes; i++) {
                             Optional<MavLinkMessage> mavLinkMessage = parseMavLinkChar(buffer[i], mavLinkReadStatus);
                             if (mavLinkMessage.isPresent()) {
-                                logger.info("Odebrano wiadomość: " + mavLinkMessage.get());
+                                /*int from = Math.max(0, i - 10);
+                                int to = Math.min(buffer.length, i + 50);
+                                byte[] slice = Arrays.copyOfRange(buffer, from, to);
+
+                                logger.info("Odebrano wiadomość (od i={}): {}", i, Hex.bytesToHex(slice));*/
                                 listener.accept(mavLinkMessage.get());
                             }
                         }
@@ -75,9 +84,9 @@ public class UartMavlinkAttitudeReader extends SerialPortReader {
         }
 
         // Sprawdzenie minimalnej długości nagłówka (10 bajtów w MAVLink 2)
-        if (status.buffer.size() >= 10) {
+        if (status.buffer.size() >= MAVLINK_HEADER_LEN) {
             int length = status.buffer.get(1) & 0xFF;  // Długość ładunku
-            int expectedSize = 10 + length + 2 + 13;    // Nagłówek + payload + checksum + signature
+            int expectedSize = MAVLINK_HEADER_LEN + length + MAVLINK_CHECKSUM_LEN;    // Nagłówek + payload + checksum + signature  + 13
 
             // Jeśli długość ramki jest kompletna
             if (status.buffer.size() >= expectedSize) {
@@ -87,11 +96,12 @@ public class UartMavlinkAttitudeReader extends SerialPortReader {
                 }
 
                 try {
-                    MavLinkMessage message = mavLinkService.decode(packet, null); //null = brak sprawdzenia checksum i signature
+                    //logger.info("Probuje zdekodowac pakiet: " + Hex.bytesToHex(packet));
+                    MavLinkMessage message = mavLinkService.decode(packet, null); //null = brak sprawdzenia signature
                     status.packetRxSuccessCount++;
                     status.buffer.clear();
                     return Optional.of(message);
-                } catch (IllegalArgumentException e) {
+                } catch (Exception e) {
                     status.packetRxDropCount++;
                     logger.info("MAVLink decode error: " + e.getMessage());
                     status.buffer.clear();

@@ -72,25 +72,25 @@ public class MavLinkServiceTest {
 
     @Test
     public void testDecodeArduino() {
-        //todo - w bibliotece arduino i tutaj wystepuje inny sposob liczenie checksumy/podpisu - do naprawy
+        //todo - w bibliotece arduino i tutaj wystepuje inny sposob liczenie podpisu - do naprawy
         MavLinkMessage mavLinkMessage = mavLinkService.decode(
-                Hex.hexToBytes("FD 1C 00 00 00 01 01 1E 00 00 03 BB 00 00 CD CC CC 3D 9A 99 99 3E 00 00 00 3F 0A D7 23 3C 0A D7 A3 3C 8F C2 F5 3C 23 B8 D9 4D 5E 30 CB 0B 00 3B 3B 36 2B 0D 0A"),
+                Hex.hexToBytes("FD 1C 00 00 01 01 01 1E 00 00 07 00 00 00 D1 4F FD 3C 95 C8 83 BA 88 DF 18 38 3B 36 FD BC F5 3E 86 3C AB D5 60 3C CB C9 64 16 B8 11 79 13 21 BE A8 50 98 ED 35"),
                 null
         );
-        assertEquals("MavLinkMessage{payloadLength=28, incompatFlags=0, compatFlags=0, sequence=0, systemId=1, componentId=1, messageId=30, checksum=0}",
+        assertEquals("MavLinkMessage{payloadLength=28, incompatFlags=0, compatFlags=0, sequence=1, systemId=1, componentId=1, messageId=30, checksum=51659}",
                 mavLinkMessage.toString());
     }
 
     @Test
     public void testVizualize() {
         MavLinkMessage mavLinkMessage = mavLinkService.decode(
-                Hex.hexToBytes("FD 1C 00 00 00 01 01 1E 00 00 03 BB 00 00 CD CC CC 3D 9A 99 99 3E 00 00 00 3F 0A D7 23 3C 0A D7 A3 3C 8F C2 F5 3C 23 B8 D9 4D 5E 30 CB 0B 00 3B 3B 36 2B 0D 0A"),
+                Hex.hexToBytes("FD 1C 00 00 00 01 01 1E 00 00 03 BB 00 00 CD CC CC 3D 9A 99 99 3E 00 00 00 3F 0A D7 23 3C 0A D7 A3 3C 8F C2 F5 3C 23 27 D9 4D 5E 30 CB 0B 00 3B 3B 36 2B 0D 0A"),
                 null
         );
         assertEquals("""
                         Payload30{yawSpeed=0.03, pitchSpeed=0.02, rollSpeed=0.01, yaw=0.5, pitch=0.3, roll=0.1, timeBootMs=47875, messageId=30, messageType='ATTITUDE'}
                         """.trim(),
-                mavLinkService.visualizePayload(mavLinkMessage).toString());
+                mavLinkService.getPayload30(mavLinkMessage).toString());
     }
 
 }

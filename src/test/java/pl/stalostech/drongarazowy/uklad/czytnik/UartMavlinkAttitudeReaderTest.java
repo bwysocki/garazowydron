@@ -54,9 +54,12 @@ public class UartMavlinkAttitudeReaderTest {
 
     @Test
     public void shouldParseCompletePacketSuccessfully() {
-        byte[] validPacket = new byte[10 + 5 + 2 + 13]; // header + payload + checksum + signature
+        byte[] validPacket = new byte[10 + 5 + 2]; // header + payload + checksum + (13 signature)
         validPacket[0] = MavLinkMessage.MAVLINK_STX;
         validPacket[1] = 5; // payload length = 5
+        int checksum = 23070; // 0x5A2E
+        validPacket[validPacket.length - 2] = (byte) (checksum & 0xFF);
+        validPacket[validPacket.length - 1] = (byte) ((checksum >> 8) & 0xFF);
 
         for (byte b : validPacket) {
             mavLinkReadStatus.buffer.add(b);
@@ -72,7 +75,7 @@ public class UartMavlinkAttitudeReaderTest {
 
     @Test
     public void shouldParseRealMessageSuccessfully() {
-        byte[] frame = Hex.hexToBytes("FD 04 01 02 0F 0C 01 05 00 00 74 65 73 74 E8 73 F7 CE 51 38 DA D0 F5 EA 19 FD 35 C6 0A");
+        byte[] frame = Hex.hexToBytes("FD 04 01 02 00 0C 01 02 00 00 74 65 70 74 CE 1C");
 
         Optional<MavLinkMessage> result = Optional.empty();
         for (byte b : frame) {
@@ -84,7 +87,7 @@ public class UartMavlinkAttitudeReaderTest {
         assertEquals(0, mavLinkReadStatus.packetRxDropCount);
         assertTrue(mavLinkReadStatus.buffer.isEmpty());
 
-        assertEquals("MavLinkMessage{payloadLength=4, incompatFlags=1, compatFlags=2, sequence=15, systemId=12, componentId=1, messageId=5, checksum=0}",
+        assertEquals("MavLinkMessage{payloadLength=4, incompatFlags=1, compatFlags=2, sequence=0, systemId=12, componentId=1, messageId=2, checksum=7374}",
                 result.get().toString());
     }
 

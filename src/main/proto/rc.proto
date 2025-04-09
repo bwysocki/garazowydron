@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message RCControl {
+  uint32 motor = 1;   // moc silnika: 0–10
+  uint32 yaw = 2;     // lewo–prawo: 0–10
+  uint32 pitch = 3;   // góra–dół: 0–10
+}

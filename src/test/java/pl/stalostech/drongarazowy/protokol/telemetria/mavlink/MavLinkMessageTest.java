@@ -27,7 +27,7 @@ public class MavLinkMessageTest {
         );
         byte[] signature = mavLinkMessage.getSignature();
 
-        org.junit.jupiter.api.Assertions.assertEquals("F7 CE 51 38 DA D0 F5 EA 19 FD 35 C6 0A",
+        assertEquals("F7 CE 51 38 DA D0 F5 EA 19 FD 35 C6 0A",
                 Hex.bytesToHex(signature));
 
         byte[] signedMessage = mavLinkMessage.encode();

@@ -1,6 +1,8 @@
 package pl.stalostech.drongarazowy.protokol.telemetria.mavlink;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.stalostech.drongarazowy.funkcje.Hex;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -12,6 +14,7 @@ import static pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkMess
 import static pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkMessage.MAVLINK_STX;
 
 @Service
+@Slf4j
 public class MavLinkService {
 
     /**
@@ -43,7 +46,6 @@ public class MavLinkService {
         //int checksum = buffer.getShort() & 0xFFFF;
         int ckA = buffer.get() & 0xFF;  // Młodszy bajt (LSB)
         int ckB = buffer.get() & 0xFF;  // Starszy bajt (MSB)
-
         int checksum = (ckB << 8) | ckA;
 
         byte[] signature = null;
@@ -54,10 +56,10 @@ public class MavLinkService {
         }
 
         MavLinkMessage message = new MavLinkMessage(incompatFlags, compatFlags, sequence, systemId, componentId, messageId, payload, secretKey);
-        if (secretKey != null) {
-            if (message.getChecksum() != checksum) {
-                throw new IllegalArgumentException("Invalid MavLinkMessage checksum");
-            }
+        if (message.getChecksum() != checksum) {
+            throw new IllegalArgumentException("Invalid MavLinkMessage checksum:" + Hex.bytesToHex(data));
+        }
+        if (secretKey != null) { //todo secret not validated
             if (!Arrays.equals(signature, message.getSignature())) {
                 throw new IllegalArgumentException("Invalid MavLinkMessage signature");
             }
@@ -72,7 +74,7 @@ public class MavLinkService {
      * @param mavLinkMessage Wiadomość MAVLink
      * @return Obiekt zawierający rozkodowane wartości fizyczne z payloadu
      */
-    public MavLinkPayload30 visualizePayload(MavLinkMessage mavLinkMessage) {
+    public MavLinkPayload30 getPayload30(MavLinkMessage mavLinkMessage) {
         byte[] payload = mavLinkMessage.getPayload();
         int messageId = mavLinkMessage.getMessageId();
 
@@ -85,42 +87,34 @@ public class MavLinkService {
             rawHexPayload.add(String.format("%02X", b));
         }
 
-        // Sprawdzenie rodzaju wiadomości
-        if (messageId == 30) {  // Wiadomość ATTITUDE
+        if (messageId == 30) { // ATTITUDE
             long timeBootMs = ((payload[0] & 0xFFL)) |
                     ((payload[1] & 0xFFL) << 8) |
                     ((payload[2] & 0xFFL) << 16) |
                     ((payload[3] & 0xFFL) << 24);
 
-            float roll = Float.intBitsToFloat(((payload[4] & 0xFF)) |
-                    ((payload[5] & 0xFF) << 8) |
-                    ((payload[6] & 0xFF) << 16) |
-                    ((payload[7] & 0xFF) << 24));
+            float roll = getFloat32LE(payload, 4);
+            float pitch = getFloat32LE(payload, 8);
+            float yaw = getFloat32LE(payload, 12);
+            float rollSpeed = getFloat32LE(payload, 16);
+            float pitchSpeed = getFloat32LE(payload, 20);
+            float yawSpeed = getFloat32LE(payload, 24);
 
-            float pitch = Float.intBitsToFloat(((payload[8] & 0xFF)) |
-                    ((payload[9] & 0xFF) << 8) |
-                    ((payload[10] & 0xFF) << 16) |
-                    ((payload[11] & 0xFF) << 24));
+            //System.out.println(roll + " " + pitch + " " + yaw );
 
-            float yaw = Float.intBitsToFloat(((payload[12] & 0xFF)) |
-                    ((payload[13] & 0xFF) << 8) |
-                    ((payload[14] & 0xFF) << 16) |
-                    ((payload[15] & 0xFF) << 24));
-
-            float rollSpeed = Float.intBitsToFloat(((payload[16] & 0xFF)) |
-                    ((payload[17] & 0xFF) << 8) |
-                    ((payload[18] & 0xFF) << 16) |
-                    ((payload[19] & 0xFF) << 24));
-
-            float pitchSpeed = Float.intBitsToFloat(((payload[20] & 0xFF)) |
-                    ((payload[21] & 0xFF) << 8) |
-                    ((payload[22] & 0xFF) << 16) |
-                    ((payload[23] & 0xFF) << 24));
-
-            float yawSpeed = Float.intBitsToFloat(((payload[24] & 0xFF)) |
-                    ((payload[25] & 0xFF) << 8) |
-                    ((payload[26] & 0xFF) << 16) |
-                    ((payload[27] & 0xFF) << 24));
+            // Odfiltrowanie śmieci
+            if (isInvalidFloat(roll)) {
+                log.warn("Ignoruję nieprawidłową wartość roll: {}", roll);
+                roll = 0;
+            }
+            if (isInvalidFloat(pitch)) {
+                log.warn("Ignoruję nieprawidłową wartość pitch: {}", pitch);
+                pitch = 0;
+            }
+            if (isInvalidFloat(yaw)) {
+                log.warn("Ignoruję nieprawidłową wartość yaw: {}", yaw);
+                yaw = 0;
+            }
 
             return MavLinkPayload30.builder()
                     .messageId(messageId)
@@ -135,7 +129,22 @@ public class MavLinkService {
                     .rawHexPayload(rawHexPayload)
                     .build();
         }
+
         throw new IllegalStateException("Not valid payload");
+    }
+
+    // Pomocnicza metoda do odczytu float z bajtów little-endian
+    private float getFloat32LE(byte[] data, int offset) {
+        int intBits = ((data[offset] & 0xFF)) |
+                ((data[offset + 1] & 0xFF) << 8) |
+                ((data[offset + 2] & 0xFF) << 16) |
+                ((data[offset + 3] & 0xFF) << 24);
+        return Float.intBitsToFloat(intBits);
+    }
+
+    // Walidacja floatów (czy nie są zbyt małe/duże/NaN/Infinity)
+    private boolean isInvalidFloat(float value) {
+        return !Float.isFinite(value) || Math.abs(value) >= 1_000;
     }
 
 }

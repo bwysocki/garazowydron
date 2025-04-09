@@ -35,9 +35,8 @@ public class MavLinkMessage {
         this.componentId = componentId;
         this.messageId = messageId;
         this.payload = payload;
+        this.checksum = calculateChecksum(this);
         if (secretKey != null) {
-            this.checksum = calculateChecksum(this);
-
             try {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
 
@@ -111,7 +110,6 @@ public class MavLinkMessage {
 
         crc = crcAccumulateBuffer(crc, mavLinkMessage.getPayload());
         crc = crcAccumulate((byte) 30, crc);
-
         // 5. Zwrócenie CRC jako wartość 16-bitowa
         return crc & 0xFFFF;
     }

@@ -25,7 +25,7 @@ abstract class SerialPortReader {
      * @throws RuntimeException jeśli nie uda się otworzyć portu szeregowego
      */
     public void connect(int baudRate) {
-        serialPort = SerialPort.getCommPort("/dev/ttyACM0");
+        serialPort = SerialPort.getCommPort("/dev/ttyUSB0");
         serialPort.setBaudRate(baudRate);
 
         //serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
@@ -48,7 +48,7 @@ abstract class SerialPortReader {
     /**
      * Zamyka port szeregowy, jeśli jest otwarty.
      */
-    void disconnect() {
+    public void disconnect() {
         if (serialPort != null && serialPort.isOpen()) {
             serialPort.closePort();
             logger.info("Rozłączono na porcie: {}", serialPort.getSystemPortName());

@@ -1,4 +1,4 @@
-package pl.stalostech.drongarazowy.seria.d001;
+package pl.stalostech.drongarazowy.seria;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +14,6 @@ import java.io.IOException;
 @SpringBootApplication
 @ComponentScan({"pl.stalostech.drongarazowy.uklad", "pl.stalostech.drongarazowy.protokol.telemetria.mavlink"})
 @Slf4j
-
 public class Drone003 {
 
     private static ApplicationContext context;

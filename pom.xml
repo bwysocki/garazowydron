@@ -135,7 +135,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                    <mainClass>pl.stalostech.drongarazowy.seria.d001.Drone003</mainClass>
+                    <mainClass>pl.stalostech.drongarazowy.seria.Drone003</mainClass>
                 </configuration>
             </plugin>
 
@@ -175,7 +175,7 @@
                     <execution>
                         <id>debug</id>
                         <configuration>
-                            <mainClass>pl.stalostech.drongarazowy.seria.d001.Drone003</mainClass>
+                            <mainClass>pl.stalostech.drongarazowy.seria.Drone003</mainClass>
                             <options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
                             </options>
@@ -183,7 +183,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>pl.stalostech.drongarazowy.seria.d001.Drone003</mainClass>
+                    <mainClass>pl.stalostech.drongarazowy.seria.Drone003</mainClass>
                 </configuration>
             </plugin>
             <plugin>

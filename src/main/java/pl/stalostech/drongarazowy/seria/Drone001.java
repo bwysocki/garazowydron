@@ -1,4 +1,4 @@
-package pl.stalostech.drongarazowy.seria.d001;
+package pl.stalostech.drongarazowy.seria;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -10,20 +10,16 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkMessage;
-import pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkPayload30;
-import pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkService;
-import pl.stalostech.drongarazowy.uklad.czytnik.UartMavlinkAttitudeReader;
+import pl.stalostech.drongarazowy.uklad.czytnik.MPU6050RecordReader;
+import pl.stalostech.drongarazowy.uklad.model.MPU6050Record;
 
 @SpringBootApplication
-@ComponentScan({"pl.stalostech.drongarazowy.uklad", "pl.stalostech.drongarazowy.protokol.telemetria.mavlink"})
-@Slf4j
-public class Drone002 extends Application {
+@ComponentScan("pl.stalostech.drongarazowy.uklad")
+public class Drone001 extends Application {
 
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
@@ -35,14 +31,15 @@ public class Drone002 extends Application {
     private static ApplicationContext context;
 
     public static void main(String[] args) {
-        context = SpringApplication.run(Drone002.class, args);
+        context = SpringApplication.run(Drone001.class, args);
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        UartMavlinkAttitudeReader reader = context.getBean(UartMavlinkAttitudeReader.class);
-        MavLinkService mavLinkService = context.getBean(MavLinkService.class);
+        MPU6050RecordReader reader = context.getBean(MPU6050RecordReader.class);
+
+        MPU6050Record.Yaw yaw = new MPU6050Record.Yaw();
 
         Box arduino = new Box(40, 30, 10);
         PhongMaterial material = new PhongMaterial();
@@ -89,23 +86,18 @@ public class Drone002 extends Application {
         addLight(100, -100, 500, root);
         addLight(-100, 100, 300, root);
 
-        primaryStage.setTitle("Mavlink Visualization");
+        primaryStage.setTitle("MPU6050 Visualization");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        reader.listen((MavLinkMessage mavLinkMessage) -> {
-            MavLinkPayload30 mavLinkPayload30 = mavLinkService.getPayload30(mavLinkMessage);
-            safeSetAngle(rotateX, mavLinkPayload30.getPitch(), "pitch");
-            safeSetAngle(rotateY, mavLinkPayload30.getRoll(), "roll");
-            safeSetAngle(rotateZ, mavLinkPayload30.getYaw(), "yaw");
-        }).start();
-    }
+        reader.listen((MPU6050Record record) -> {
+            yaw.setCurrentYaw(record.getYaw(yaw, System.nanoTime()));
+            yaw.setLastTimeNano(System.nanoTime());
 
-    private void safeSetAngle(Rotate rotate, double angleRad, String axisName) {
-        double angleDeg = Math.toDegrees(angleRad);
-        if (Double.isFinite(angleDeg) && Math.abs(angleDeg) >= 0.01 && Math.abs(angleDeg) <= 360) {
-            rotate.setAngle(angleDeg);
-        }
+            rotateX.setAngle(-80 + -1 * record.getPitch());
+            rotateY.setAngle(record.getRoll());
+            rotateZ.setAngle(yaw.getCurrentYaw());
+        }).start();
     }
 
     private static void addLight(int v, int v1, int x, Group root) {

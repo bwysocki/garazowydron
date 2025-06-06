@@ -24,7 +24,6 @@ public class Drone003 {
 
         KeyboardControl control = new KeyboardControl();
 
-
         System.out.println("Drone 003 started");
         System.out.println("Sterowanie:");
         System.out.println(" ← →  = lewo / prawo (lp)");
@@ -45,10 +44,22 @@ public class Drone003 {
                         int direction = System.in.read();
 
                         switch (direction) {
-                            case 65 -> control.increaseGd(); // ↑
-                            case 66 -> control.decreaseGd(); // ↓
-                            case 67 -> control.increaseLp(); // →
-                            case 68 -> control.decreaseLp(); // ←
+                            case 65 -> {
+                                control.resetLp();
+                                control.increaseGd();
+                            } // ↑
+                            case 66 -> {
+                                control.resetLp();
+                                control.decreaseGd();
+                            } // ↓
+                            case 67 -> {
+                                control.resetGd();
+                                control.increaseLp();
+                            } // →
+                            case 68 -> {
+                                control.resetGd();
+                                control.decreaseLp();
+                            } // ←
                         }
 
                         changed = true;

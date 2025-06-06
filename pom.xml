@@ -33,6 +33,7 @@
         <jSerialComm.version>2.6.2</jSerialComm.version>
         <javafx-controls.version>21.0.2</javafx-controls.version>
         <protobuf-java.version>3.25.6</protobuf-java.version>
+        <gson.version>2.13.1</gson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -55,6 +56,21 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx-controls.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -135,7 +151,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                    <mainClass>pl.stalostech.drongarazowy.seria.Drone003</mainClass>
+                    <mainClass>pl.stalostech.drongarazowy.seria.Drone004</mainClass>
                 </configuration>
             </plugin>
 
@@ -175,7 +191,7 @@
                     <execution>
                         <id>debug</id>
                         <configuration>
-                            <mainClass>pl.stalostech.drongarazowy.seria.Drone003</mainClass>
+                            <mainClass>pl.stalostech.drongarazowy.seria.Drone004</mainClass>
                             <options>
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
                             </options>
@@ -183,7 +199,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>pl.stalostech.drongarazowy.seria.Drone003</mainClass>
+                    <mainClass>pl.stalostech.drongarazowy.seria.Drone004</mainClass>
                 </configuration>
             </plugin>
             <plugin>

@@ -29,7 +29,7 @@ public class SerialPortReaderTest {
     @BeforeEach
     void setUp() {
         mockedSerialPort = mockStatic(SerialPort.class);
-        mockedSerialPort.when(() -> SerialPort.getCommPort("/dev/ttyACM0")).thenReturn(serialPortMock);
+        mockedSerialPort.when(() -> SerialPort.getCommPort("/dev/ttyUSB0")).thenReturn(serialPortMock);
 
         reader = new SerialPortReader() {
         };
@@ -42,7 +42,7 @@ public class SerialPortReaderTest {
 
     @Test
     void testConnect_Success() {
-        when(serialPortMock.getSystemPortName()).thenReturn("/dev/ttyACM0");
+        when(serialPortMock.getSystemPortName()).thenReturn("/dev/ttyUSB0");
         when(serialPortMock.openPort()).thenReturn(true);
         when(serialPortMock.isOpen()).thenReturn(true);
 
@@ -62,7 +62,7 @@ public class SerialPortReaderTest {
         when(serialPortMock.isOpen()).thenReturn(false);
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> reader.connect(115200));
-        assertEquals("Nie można otworzyć portu! Sprawdź uprawnienia lub czy port nie jest zajęty.", exception.getMessage());
+        assertEquals("Nie można otworzyć portu (/dev/ttyUSB0)! Sprawdź uprawnienia lub czy port nie jest zajęty.", exception.getMessage());
 
         verify(serialPortMock).openPort();
         assertFalse(reader.isConnected(), "Port nie powinien być otwarty po nieudanej próbie połączenia.");
@@ -70,7 +70,7 @@ public class SerialPortReaderTest {
 
     @Test
     void testDisconnect_Success() {
-        when(serialPortMock.getSystemPortName()).thenReturn("/dev/ttyACM0");
+        when(serialPortMock.getSystemPortName()).thenReturn("/dev/ttyUSB0");
         when(serialPortMock.openPort()).thenReturn(true);
         when(serialPortMock.isOpen()).thenReturn(true);
 

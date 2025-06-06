@@ -22,16 +22,19 @@ public class KeyboardControl {
     private static final byte START_BYTE = (byte) 0xAA;
     private static final byte STOP_BYTE = (byte) 0x55;
 
-    private static final int MOTOR_MIN = 0;
-    private static final int MOTOR_MAX = 7;
-    private static final int LP_MIN = 0;
-    private static final int LP_MAX = 6;
-    private static final int GD_MIN = 0;
-    private static final int GD_MAX = 6;
+    public static final int MOTOR_MIN = 0;
+    public static final int MOTOR_MAX = 19;
+    public static final int LP_MIN = 0;
+    public static final int LP_MAX = 60;
+    public static final int GD_MIN = 0;
+    public static final int GD_MAX = 60;
+
+    public static final int LP_MIDDLE = 30;
+    public static final int GD_MIDDLE = 30;
 
     private int motor = 0;
-    private int lp = 3;
-    private int gd = 3;
+    private int lp = LP_MIDDLE;
+    private int gd = GD_MIDDLE;
 
     // Modyfikatory motor
     public void increaseMotor() {
@@ -58,6 +61,14 @@ public class KeyboardControl {
 
     public void decreaseGd() {
         gd = clamp(gd - 1, GD_MIN, GD_MAX);
+    }
+
+    public void resetLp() {
+        lp = LP_MIDDLE;
+    }
+
+    public void resetGd() {
+        gd = GD_MIDDLE;
     }
 
     /**

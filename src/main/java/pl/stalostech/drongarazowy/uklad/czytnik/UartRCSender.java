@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class UartRCSender extends SerialPortReader {
 
-    private static final long SEND_INTERVAL_MS = 333;
+    private static final long SEND_INTERVAL_MS = 200;
     volatile KeyboardControl lastCommand;
 
     @PostConstruct

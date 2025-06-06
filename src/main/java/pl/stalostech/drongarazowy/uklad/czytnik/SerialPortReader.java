@@ -3,6 +3,7 @@ package pl.stalostech.drongarazowy.uklad.czytnik;
 import com.fazecast.jSerialComm.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.InputStream;
 
@@ -15,6 +16,9 @@ abstract class SerialPortReader {
 
     private static final Logger logger = LoggerFactory.getLogger(SerialPortReader.class);
 
+    @Value("${serial.port:/dev/ttyUSB0}")
+    private String PORT = "/dev/ttyUSB0";
+
     protected SerialPort serialPort;
 
     /**
@@ -25,14 +29,14 @@ abstract class SerialPortReader {
      * @throws RuntimeException jeśli nie uda się otworzyć portu szeregowego
      */
     public void connect(int baudRate) {
-        serialPort = SerialPort.getCommPort("/dev/ttyUSB0");
+        serialPort = SerialPort.getCommPort(PORT);
         serialPort.setBaudRate(baudRate);
 
         //serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
         if (!serialPort.openPort()) {
-            throw new RuntimeException("Nie można otworzyć portu! Sprawdź uprawnienia lub czy port nie jest zajęty.");
+            throw new RuntimeException("Nie można otworzyć portu (%s)! Sprawdź uprawnienia lub czy port nie jest zajęty.".formatted(PORT));
         }
 
         logger.info("Połączono na porcie: {}", serialPort.getSystemPortName());

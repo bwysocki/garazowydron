@@ -4,9 +4,11 @@ project(autopilot VERSION 0.01 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 enable_testing()
 
-include_directories(${CMAKE_SOURCE_DIR}/generated_cpp/common)
+include_directories(${CMAKE_SOURCE_DIR}/smt32/lib)
 
 # Tests
+add_subdirectory(lib/Uart)
+add_subdirectory(lib/MavlinkSender)
 add_subdirectory(lib/Math)
 add_subdirectory(lib/RC)
 

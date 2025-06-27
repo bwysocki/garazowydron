@@ -1,36 +1,33 @@
 #include <gtest/gtest.h>
-#include "../MavlinkSender.hpp"
-
-
 #include <vector>
+#include "../MavlinkSender.hpp"
+#include "../../Uart/test/MockUartDriver.cpp"
 
-class ByteCapture {
-public:
-    void write(uint8_t byte) {
-        buffer.push_back(byte);
-    }
-
-    std::vector<uint8_t> buffer;
-};
 
 TEST(MavlinkSenderTest, SendManualControl_Default) {
-    ByteCapture capture;
-    MavlinkSender sender([&](uint8_t byte) { capture.write(byte); });
+    MockUartDriver mockDriver;
+    UartTxQueue txQueue(mockDriver);
+    MavlinkSender sender(txQueue);
 
     // Wysyłamy komendę manual control
     sender.sendManualControl(1, 100, -200, 300, -400);
 
-    ASSERT_GT(capture.buffer.size(), 0);
+    // Symulujemy zakończenie transmisji
+    txQueue.onTransmitComplete();
 
-    // Sprawdź start bajt MAVLink 2.0
-    EXPECT_EQ(capture.buffer[0], 0xFD); // MAVLink v2
+    // Sprawdzamy, czy coś zostało wysłane
+    ASSERT_FALSE(mockDriver.sentPackets.empty());
+    const auto& buffer = mockDriver.sentPackets[0];
 
-    // Przechodzimy do dekodowania wiadomości z bufora
+    ASSERT_GT(buffer.size(), 0u);
+    EXPECT_EQ(buffer[0], 0xFD); // MAVLink v2 start byte
+
+    // Dekodowanie wiadomości z bufora
     mavlink_message_t msg;
     mavlink_status_t status;
     bool parsed = false;
 
-    for (uint8_t byte : capture.buffer) {
+    for (uint8_t byte : buffer) {
         if (mavlink_parse_char(MAVLINK_COMM_0, byte, &msg, &status)) {
             parsed = true;
             break;

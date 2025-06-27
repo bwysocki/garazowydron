@@ -4,18 +4,24 @@
 #include "../../Uart/test/MockUartDriver.cpp"
 
 
-TEST(MavlinkSenderTest, SendArmCommand_ArmTrue) {
+TEST(MavlinkSenderTest, Ack_SendsCorrectCommandAck) {
     MockUartDriver mockDriver;
     UartTxQueue txQueue(mockDriver);
     MavlinkSender sender(txQueue);
 
-    // Wysyłamy komendę uzbrojenia (ARM)
-    sender.sendArmCommand(1, true);
-
-    // Symulujemy zakończenie transmisji
+    // Wysyłamy ACK dla komendy ARM z wynikiem ACCEPTED
+    sender.ack(
+        MAV_CMD_COMPONENT_ARM_DISARM, // command
+        MAV_RESULT_ACCEPTED,          // result
+        255,                          // target_system (GCS)
+        190,                          // target_component (Mission Planner)
+        0,                            // progress
+        0                             // result_param2
+    );
+    
     txQueue.onTransmitComplete();
 
-    // Sprawdzamy, że coś zostało wysłane
+    // Sprawdź, że coś zostało wysłane
     ASSERT_FALSE(mockDriver.sentPackets.empty());
     const auto& buffer = mockDriver.sentPackets[0];
 
@@ -37,17 +43,17 @@ TEST(MavlinkSenderTest, SendArmCommand_ArmTrue) {
     ASSERT_TRUE(parsed) << "Nie udało się sparsować wiadomości MAVLink";
 
     // Sprawdź typ wiadomości
-    EXPECT_EQ(msg.msgid, MAVLINK_MSG_ID_COMMAND_LONG);
+    EXPECT_EQ(msg.msgid, MAVLINK_MSG_ID_COMMAND_ACK);
 
     // Dekodowanie struktury
-    mavlink_command_long_t cmd;
-    mavlink_msg_command_long_decode(&msg, &cmd);
+    mavlink_command_ack_t ack;
+    mavlink_msg_command_ack_decode(&msg, &ack);
 
     // Sprawdzenie pól
-    EXPECT_EQ(cmd.target_system, 1);
-    EXPECT_EQ(cmd.target_component, 0);
-    EXPECT_EQ(cmd.command, MAV_CMD_COMPONENT_ARM_DISARM);
-    EXPECT_EQ(cmd.confirmation, 1);
-    EXPECT_FLOAT_EQ(cmd.param1, 1.0f); // arm = true
-    EXPECT_FLOAT_EQ(cmd.param2, 0.0f);
+    EXPECT_EQ(ack.command, MAV_CMD_COMPONENT_ARM_DISARM);
+    EXPECT_EQ(ack.result, MAV_RESULT_ACCEPTED);
+    EXPECT_EQ(ack.target_system, 255);
+    EXPECT_EQ(ack.target_component, 190);
+    EXPECT_EQ(ack.progress, 0);
+    EXPECT_EQ(ack.result_param2, 0);
 }

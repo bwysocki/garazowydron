@@ -1,16 +1,14 @@
 #pragma once
 
-#include <functional>
 #include <cstdint>
+#include "../Uart/UartTxQueue.hpp"
 #include "./MavlinkDefaults.hpp"
 #include "../Mavlink/common/mavlink.h"
 
 class MavlinkSender
 {
 public:
-    using ByteWriter = std::function<void(uint8_t)>;
-
-    explicit MavlinkSender(ByteWriter writer);
+    explicit MavlinkSender(UartTxQueue& uartQueue);
 
     /**
      * @brief Wysyła wiadomość MAVLink HEARTBEAT do zdalnego odbiorcy (np. autopilota).
@@ -97,7 +95,37 @@ public:
         uint8_t target_id,
         bool arm = true);
 
+    /**
+     * @brief Wysyła wiadomość MAVLink COMMAND_ACK w odpowiedzi na otrzymaną komendę.
+     *
+     * Wiadomość `COMMAND_ACK` służy do potwierdzenia odbioru i przetworzenia komendy
+     * wysłanej przez zdalnego nadawcę, takiej jak ARM, DISARM, TAKEOFF, itp.
+     * Zazwyczaj jest wysyłana przez autopilota (lub symulowany dron) w odpowiedzi
+     * na `COMMAND_LONG` lub `COMMAND_INT`.
+     *
+     * @param command          Typ otrzymanej komendy (np. MAV_CMD_COMPONENT_ARM_DISARM).
+     * @param result           Wynik przetwarzania komendy (np. MAV_RESULT_ACCEPTED, MAV_RESULT_FAILED).
+     * @param target_system    ID systemu docelowego (np. GCS = 255).
+     * @param target_component ID komponentu w systemie (np. 190 = Mission Planner).
+     * @param progress         Postęp wykonania (0–100, opcjonalne – domyślnie 0).
+     * @param result_param2    Parametr zależny od komendy, może służyć do podania przyczyny błędu (domyślnie 0).
+     *
+     * @note Funkcja serializuje strukturę `mavlink_command_ack_t` do bajtów zgodnie z protokołem MAVLink 2.0
+     *       i przekazuje ją do funkcji `writeByte(uint8_t)`, przekazanej do `MavlinkSender` podczas tworzenia.
+     *
+     * @see MAV_CMD
+     * @see MAV_RESULT
+     * @see mavlink_msg_command_ack_pack()
+     */
+    void ack(
+        uint16_t command,
+        uint8_t result,
+        uint8_t target_system = SYSTEM_ID_GCS,
+        uint8_t target_component = COMPONENT_ID_MISSIONPLANNER,
+        uint8_t progress = 0,
+        uint8_t result_param2 = 0);
+
 private:
-    ByteWriter writeByte;
+    UartTxQueue& uart;
     void sendMessage(const mavlink_message_t &msg);
 };

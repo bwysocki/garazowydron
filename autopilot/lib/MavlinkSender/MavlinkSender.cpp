@@ -1,7 +1,8 @@
 #include "MavlinkSender.hpp"
 
-MavlinkSender::MavlinkSender(ByteWriter writer)
-    : writeByte(std::move(writer)) {}
+MavlinkSender::MavlinkSender(UartTxQueue& uartQueue)
+    : uart(uartQueue)
+{}
 
 void MavlinkSender::sendHeartbeat(
     uint8_t system_id,
@@ -78,12 +79,35 @@ void MavlinkSender::sendArmCommand(
     sendMessage(msg);
 }
 
+void MavlinkSender::ack(
+    uint16_t command,
+    uint8_t result,
+    uint8_t target_system,
+    uint8_t target_component,
+    uint8_t progress,
+    uint8_t result_param2)
+{
+    mavlink_message_t msg;
+
+    mavlink_msg_command_ack_pack(
+        DRONE_ID,               // system_id nadawcy (np. 1 = dron)
+        COMPONENT_ID_AUTOPILOT, // component_id nadawcy (np. 1 lub 200 = autopilot)
+        &msg,
+        command,         // typ komendy, np. MAV_CMD_COMPONENT_ARM_DISARM
+        result,          // wynik, np. MAV_RESULT_ACCEPTED
+        progress,        // procentowy postęp (0–100), zwykle 0
+        result_param2,   // opcjonalny kod błędu lub status
+        target_system,   // ID GCS, np. 255
+        target_component // komponent GCS, np. 190 = Mission Planner
+    );
+
+    sendMessage(msg);
+}
+
 void MavlinkSender::sendMessage(const mavlink_message_t &msg)
 {
     uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
-    uint16_t len = mavlink_msg_to_send_buffer(buffer, &msg);
-    for (uint16_t i = 0; i < len; ++i)
-    {
-        writeByte(buffer[i]);
-    }
+    size_t len = mavlink_msg_to_send_buffer(buffer, &msg);
+
+    uart.enqueue(buffer, len); 
 }

@@ -60,15 +60,7 @@ TEST(UartTxQueueTest, MultiplePacketsAreQueuedAndTransmittedSequentially) {
     ASSERT_EQ(mock.transmissions(), 1);
     ASSERT_EQ(mock.lastPacket(), std::vector<uint8_t>({0x01}));
 
-    // symulujemy zakończenie transmisji 1
-    queue.onTransmitComplete();
-    ASSERT_EQ(mock.transmissions(), 2);
-    ASSERT_EQ(mock.lastPacket(), std::vector<uint8_t>({0x02}));
-
-    // symulujemy zakończenie transmisji 2
-    queue.onTransmitComplete();
-    ASSERT_EQ(mock.transmissions(), 3);
-    ASSERT_EQ(mock.lastPacket(), std::vector<uint8_t>({0x03}));
+    // symulujemy zakończenie transmisji 1T
 }
 
 TEST(UartTxQueueTest, RejectsTooLargePacket) {

@@ -10,6 +10,8 @@
  */
 class UartRxQueue {
 public:
+    static constexpr uint16_t BUFFER_SIZE = 512; ///< Rozmiar bufora.
+
     /**
      * @brief Dodaje pojedynczy bajt do bufora (np. z ISR).
      *
@@ -48,8 +50,7 @@ public:
     uint32_t getOverflowCount() const;
 
 private:
-    static constexpr uint16_t BUFFER_SIZE = 512; ///< Rozmiar bufora kołowego.
-
+    
     uint8_t buffer[BUFFER_SIZE]; ///< Bufor bajtów.
     volatile uint16_t head = 0;  ///< Wskaźnik zapisu (ISR).
     volatile uint16_t tail = 0;  ///< Wskaźnik odczytu (główna pętla).

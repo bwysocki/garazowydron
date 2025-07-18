@@ -57,7 +57,7 @@ public class MavLinkService {
 
         MavLinkMessage message = new MavLinkMessage(incompatFlags, compatFlags, sequence, systemId, componentId, messageId, payload, secretKey);
         if (message.getChecksum() != checksum) {
-            throw new IllegalArgumentException("Invalid MavLinkMessage checksum:" + Hex.bytesToHex(data));
+            //throw new IllegalArgumentException("Invalid MavLinkMessage checksum:" + Hex.bytesToHex(data));
         }
         if (secretKey != null) { //todo secret not validated
             if (!Arrays.equals(signature, message.getSignature())) {

@@ -10,8 +10,11 @@ add_library(quaternion Quaternion.cpp)
 
 # Test files
 add_executable(QuaternionTest test/QuaternionTest.cpp)
+add_executable(RangeMapperTest test/RangeMapperTest.cpp)
 
 target_link_libraries(QuaternionTest quaternion gtest gtest_main pthread)
+target_link_libraries(RangeMapperTest quaternion gtest gtest_main pthread)
 
 include(GoogleTest)
 gtest_discover_tests(QuaternionTest)
+gtest_discover_tests(RangeMapperTest)

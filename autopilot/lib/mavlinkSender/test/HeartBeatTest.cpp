@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "../MavlinkSender.hpp"
-#include "../../Uart/test/MockUartDriver.cpp"
+#include "../../uart/test/MockUartDriver.cpp"
 
 
 // MAVLink v2 header constants

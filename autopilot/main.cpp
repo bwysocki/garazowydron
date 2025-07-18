@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <cstring>       
-#include "lib/Mavlink/common/mavlink.h"       
+#include "lib/mavlink/common/mavlink.h"       
 
 using namespace std;
 

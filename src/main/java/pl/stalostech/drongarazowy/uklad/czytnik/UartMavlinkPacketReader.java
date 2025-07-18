@@ -22,7 +22,7 @@ import static pl.stalostech.drongarazowy.protokol.telemetria.mavlink.MavLinkMess
 
 
 @Service
-public class UartMavlinkAttitudeReader extends SerialPortReader {
+public class UartMavlinkPacketReader extends SerialPortReader {
 
     public static class MavLinkReadStatus {
         public int packetRxSuccessCount = 0;
@@ -30,16 +30,16 @@ public class UartMavlinkAttitudeReader extends SerialPortReader {
         public List<Byte> buffer = new ArrayList<>();
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(UartMavlinkAttitudeReader.class);
+    private static final Logger logger = LoggerFactory.getLogger(UartMavlinkPacketReader.class);
 
     private final MavLinkService mavLinkService;
 
     @Autowired
-    public UartMavlinkAttitudeReader(MavLinkService mavLinkService) {
+    public UartMavlinkPacketReader(MavLinkService mavLinkService) {
         this.mavLinkService = mavLinkService;
     }
 
-    public Thread listen(Consumer<MavLinkMessage> listener) {
+    public Thread listen(Consumer<MAVLinkPacket> listener) {
         connect(9600);
 
         return new Thread(() -> {
@@ -47,14 +47,19 @@ public class UartMavlinkAttitudeReader extends SerialPortReader {
 
             MavLinkReadStatus mavLinkReadStatus = new MavLinkReadStatus();
             byte[] buffer = new byte[280];
+            Parser parser = new Parser();
             while (true) {
                 try {
                     int numBytes = inputStream.read(buffer);
                     if (numBytes > 0) {
+
+                        MAVLinkPacket packet = null;
                         for (int i = 0; i < numBytes; i++) {
-                            Optional<MavLinkMessage> mavLinkMessage = parseMavLinkChar(buffer[i], mavLinkReadStatus);
-                            if (mavLinkMessage.isPresent()) {
-                                listener.accept(mavLinkMessage.get());
+                            //System.out.printf("%02X ", buffer[i]);
+                            packet = parser.mavlink_parse_char(buffer[i] & 0xFF);
+                            if (packet != null) {
+                                listener.accept(packet);
+                                break;
                             }
                         }
 

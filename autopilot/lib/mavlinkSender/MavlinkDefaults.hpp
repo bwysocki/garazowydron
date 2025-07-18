@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../Mavlink/common/mavlink.h"
+#include "../mavlink/common/mavlink.h"
 
 // Drone  
 constexpr uint8_t DRONE_ID = 5;

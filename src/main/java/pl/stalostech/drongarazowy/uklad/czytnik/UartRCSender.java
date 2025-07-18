@@ -20,7 +20,7 @@ public class UartRCSender extends SerialPortReader {
     private static final long SEND_INTERVAL_MS = 200;
     volatile KeyboardControl lastCommand;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         connect(9600);
 

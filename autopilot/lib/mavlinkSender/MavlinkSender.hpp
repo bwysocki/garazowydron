@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cstdint>
-#include "../Uart/UartTxQueue.hpp"
+#include "../uart/UartTxQueue.hpp"
 #include "./MavlinkDefaults.hpp"
-#include "../Mavlink/common/mavlink.h"
+#include "../mavlink/common/mavlink.h"
 
 class MavlinkSender
 {

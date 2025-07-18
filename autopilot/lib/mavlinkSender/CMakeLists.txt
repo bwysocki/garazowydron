@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 enable_testing()
 
 # Source files
-add_library(mavlinkSender MavlinkSender.cpp ../Uart/UartTxQueue.cpp)
+add_library(mavlinkSender MavlinkSender.cpp ../uart/UartTxQueue.cpp)
 
 
 # Test files

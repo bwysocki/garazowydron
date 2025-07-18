@@ -11,6 +11,7 @@ enable_testing()
 # === Biblioteka ===
 add_library(uart
     UartTxQueue.cpp
+    UartRxQueue.cpp
     HalUartDriver.cpp
 )
 
@@ -20,8 +21,16 @@ target_include_directories(uart PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${STM32_INC_P
 add_executable(UartTxQueueTest
     test/UartTxQueueTest.cpp
 )
-
 target_link_libraries(UartTxQueueTest
+    uart
+    gtest
+    gtest_main
+    pthread
+)
+add_executable(UartRxQueueTest
+    test/UartRxQueueTest.cpp
+)
+target_link_libraries(UartRxQueueTest
     uart
     gtest
     gtest_main
@@ -30,3 +39,4 @@ target_link_libraries(UartTxQueueTest
 
 include(GoogleTest)
 gtest_discover_tests(UartTxQueueTest)
+gtest_discover_tests(UartRxQueueTest)

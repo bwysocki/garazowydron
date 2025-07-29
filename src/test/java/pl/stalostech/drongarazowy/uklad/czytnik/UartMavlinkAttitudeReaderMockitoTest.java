@@ -36,7 +36,7 @@ public class UartMavlinkAttitudeReaderMockitoTest {
     @BeforeEach
     void setup() {
         reader = spy(new UartMavlinkAttitudeReader(mavLinkService));
-        doNothing().when(reader).connect(115200);
+        doNothing().when(reader).connect(9600);
     }
 
     @Test

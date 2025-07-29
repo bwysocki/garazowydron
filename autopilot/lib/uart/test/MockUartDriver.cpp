@@ -1,6 +1,8 @@
 #include "../UartDriver.hpp"
 #include <functional>
 
+using namespace uart;
+
 class MockUartDriver : public UartDriver {
 public:
     std::vector<std::vector<uint8_t>> sentPackets;

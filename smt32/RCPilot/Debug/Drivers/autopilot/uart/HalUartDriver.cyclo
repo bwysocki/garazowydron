@@ -1,0 +1,7 @@
+../Drivers/autopilot/uart/UartDriver.hpp:16:11:constexpr uart::UartDriver::UartDriver()	1
+../Drivers/autopilot/uart/UartDriver.hpp:22:17:uart::UartDriver::~UartDriver()	1
+../Drivers/autopilot/uart/UartDriver.hpp:22:17:virtual uart::UartDriver::~UartDriver()	1
+../Drivers/autopilot/uart/HalUartDriver.cpp:6:5:uart::HalUartDriver::HalUartDriver(UART_HandleTypeDef*)	1
+../Drivers/autopilot/uart/HalUartDriver.cpp:9:10:virtual void uart::HalUartDriver::transmit(const uint8_t*, uint16_t)	1
+../Drivers/autopilot/uart/HalUartDriver.hpp:17:11:uart::HalUartDriver::~HalUartDriver()	1
+../Drivers/autopilot/uart/HalUartDriver.hpp:17:11:virtual uart::HalUartDriver::~HalUartDriver()	1

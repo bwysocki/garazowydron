@@ -1,0 +1,48 @@
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../checksum.h:35:20:void crc_accumulate(uint8_t, uint16_t*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../checksum.h:52:20:void crc_init(uint16_t*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:91:21:void mavlink_sha256_init(mavlink_sha256_ctx*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:105:20:void mavlink_sha256_calc(mavlink_sha256_ctx*, uint32_t*)	4
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:152:21:void mavlink_sha256_update(mavlink_sha256_ctx*, const void*, uint32_t)	6
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:192:21:void mavlink_sha256_final_48(mavlink_sha256_ctx*, uint8_t*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:23:34:mavlink_status_t* mavlink_get_channel_status(uint8_t)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:39:35:mavlink_message_t* mavlink_get_channel_buffer(uint8_t)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:123:21:bool mavlink_signature_check(mavlink_signing_t*, mavlink_signing_streams_t*, const mavlink_message_t*)	13
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:308:20:void _mav_parse_error(mavlink_status_t*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:500:21:void mavlink_start_checksum(mavlink_message_t*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:507:21:void mavlink_update_checksum(mavlink_message_t*, uint8_t)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:518:43:const mavlink_msg_entry_t* mavlink_get_msg_entry(uint32_t)	5
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:590:24:uint8_t mavlink_frame_char_buffer(mavlink_message_t*, mavlink_status_t*, uint8_t, mavlink_message_t*, mavlink_status_t*)	51
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:918:24:uint8_t mavlink_frame_char(uint8_t, uint8_t, mavlink_message_t*, mavlink_status_t*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:996:24:uint8_t mavlink_parse_char(uint8_t, uint8_t, mavlink_message_t*, mavlink_status_t*)	4
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/./../mavlink/common/./mavlink_msg_command_ack.h:386:20:void mavlink_msg_command_ack_decode(const mavlink_message_t*, mavlink_command_ack_t*)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/MavlinkReceiver.hpp:25:14:mavlinkio::MavlinkReceiver::MavlinkReceiver(mavlinkio::MavlinkMessageHandler&)	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/MavlinkReceiver.hpp:36:10:void mavlinkio::MavlinkReceiver::receiveByte(uint8_t)	2
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/MavlinkReceiver.hpp:66:10:void mavlinkio::MavlinkReceiver::processRxQueue(uart::UartRxQueue&)	2
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/uart/UartRxQueue.hpp:14:11:uart::UartRxQueue::UartRxQueue()	1
+../Core/Src/main.cpp:74:10:virtual void RCMavlinkHandler::onMessageReceived(const mavlink_message_t&)	4
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/MavlinkMessageHandler.hpp:15:13:mavlinkio::MavlinkMessageHandler::~MavlinkMessageHandler()	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/mavlinkio/MavlinkMessageHandler.hpp:15:13:virtual mavlinkio::MavlinkMessageHandler::~MavlinkMessageHandler()	1
+../Core/Src/main.cpp:105:16:int16_t mapJoystickAxisWithCenter(int16_t, int16_t)	3
+../Core/Src/main.cpp:124:16:int16_t mapJoystickAxis(int16_t)	1
+../Core/Src/main.cpp:136:5:int main()	2
+../Core/Src/main.cpp:205:6:void SystemClock_Config()	4
+../Core/Src/main.cpp:251:13:void MX_ADC1_Init()	6
+../Core/Src/main.cpp:325:13:void MX_TIM2_Init()	4
+../Core/Src/main.cpp:370:13:void MX_USART1_UART_Init()	2
+../Core/Src/main.cpp:401:13:void MX_DMA_Init()	1
+../Core/Src/main.cpp:422:13:void MX_GPIO_Init()	1
+../Core/Src/main.cpp:454:17:void HAL_UART_TxCpltCallback(UART_HandleTypeDef*)	2
+../Core/Src/main.cpp:460:17:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	2
+../Core/Src/main.cpp:466:17:void HAL_UART_RxCpltCallback(UART_HandleTypeDef*)	3
+../Core/Src/main.cpp:483:6:void Error_Handler()	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/math/RangeMapper.hpp:21:17:constexpr T math::mapLinear(T, T, T, T, T) [with T = short int]	1
+../Core/Src/main.cpp:72:7:RCMavlinkHandler::~RCMavlinkHandler()	1
+../Core/Src/main.cpp:72:7:virtual RCMavlinkHandler::~RCMavlinkHandler()	1
+../Core/Src/main.cpp:492:1:void __static_initialization_and_destruction_0()	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/uart/UartDriver.hpp:22:17:uart::UartDriver::~UartDriver()	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/uart/UartDriver.hpp:22:17:virtual uart::UartDriver::~UartDriver()	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/uart/HalUartDriver.hpp:17:11:uart::HalUartDriver::~HalUartDriver()	1
+/home/stalos/STM32CubeIDE/workspace_1.18.0/RCPilot/Drivers/autopilot/uart/HalUartDriver.hpp:17:11:virtual uart::HalUartDriver::~HalUartDriver()	1
+../Core/Src/main.cpp:492:1:void __static_initialization_and_destruction_1()	1
+../Core/Src/main.cpp:492:1:cpp)	1
+../Core/Src/main.cpp:492:1:cpp)	1

@@ -2,6 +2,8 @@
 #include "../RangeMapper.hpp"
 #include <cmath>
 
+using namespace math;
+
 TEST(RangeMapperTest, mapLinear_BasicMapping) {
     // Test mapowania z zakresu [0, 100] do [0, 200]
     EXPECT_EQ(mapLinear<int16_t>(0, 0, 100, 0, 200), 0);

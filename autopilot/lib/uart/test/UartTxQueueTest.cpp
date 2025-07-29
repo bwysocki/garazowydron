@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "../UartTxQueue.hpp"
 
+using namespace uart;
+
 /**
  * @brief Mockowa implementacja UartDriver do testów jednostkowych.
  *

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Abstrakcyjna klasa do zarządzania połączeniem z urządzeniem szeregowym (np. Arduino).
@@ -47,6 +48,13 @@ abstract class SerialPortReader {
             return serialPort.getInputStream();
         }
         throw new IllegalStateException("Serial port nie jest polaczony.");
+    }
+
+    public OutputStream getSerialPortOutputStream() {
+        if (isConnected()) {
+            return serialPort.getOutputStream();
+        }
+        throw new IllegalStateException("Serial port nie jest połączony.");
     }
 
     /**

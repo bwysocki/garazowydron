@@ -1,0 +1,4 @@
+../Drivers/autopilot/uart/UartTxQueue.cpp:7:5:uart::UartTxQueue::UartTxQueue(uart::UartDriver&)	16	static
+../Drivers/autopilot/uart/UartTxQueue.cpp:10:10:bool uart::UartTxQueue::enqueue(const uint8_t*, uint16_t)	32	static
+../Drivers/autopilot/uart/UartTxQueue.cpp:31:10:void uart::UartTxQueue::startNext()	24	static
+../Drivers/autopilot/uart/UartTxQueue.cpp:43:10:void uart::UartTxQueue::onTransmitComplete()	16	static

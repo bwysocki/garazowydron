@@ -1,0 +1,25 @@
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../checksum.h:35:20:void crc_accumulate(uint8_t, uint16_t*)	24	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../checksum.h:52:20:void crc_init(uint16_t*)	16	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../checksum.h:65:24:uint16_t crc_calculate(const uint8_t*, uint16_t)	24	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../checksum.h:85:20:void crc_accumulate_buffer(uint16_t*, const char*, uint16_t)	32	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:91:21:void mavlink_sha256_init(mavlink_sha256_ctx*)	16	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:105:20:void mavlink_sha256_calc(mavlink_sha256_ctx*, uint32_t*)	320	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:152:21:void mavlink_sha256_update(mavlink_sha256_ctx*, const void*, uint32_t)	120	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_sha256.h:192:21:void mavlink_sha256_final_48(mavlink_sha256_ctx*, uint8_t*)	104	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:23:34:mavlink_status_t* mavlink_get_channel_status(uint8_t)	16	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:73:24:uint8_t mavlink_sign_packet(mavlink_signing_t*, uint8_t*, const uint8_t*, uint8_t, const uint8_t*, uint8_t, const uint8_t*)	144	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:111:24:uint8_t _mav_trim_payload(const char*, uint8_t)	16	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:223:25:uint16_t mavlink_finalize_message_buffer(mavlink_message_t*, uint8_t, uint8_t, mavlink_status_t*, uint8_t, uint8_t, uint8_t)	80	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:292:25:uint16_t mavlink_finalize_message_chan(mavlink_message_t*, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)	40	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:302:25:uint16_t mavlink_finalize_message(mavlink_message_t*, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)	32	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../mavlink_helpers.h:447:25:uint16_t mavlink_msg_to_send_buffer(uint8_t*, const mavlink_message_t*)	32	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/./mavlink_msg_manual_control.h:107:24:uint16_t mavlink_msg_manual_control_pack(uint8_t, uint8_t, mavlink_message_t*, uint8_t, int16_t, int16_t, int16_t, int16_t, uint16_t, uint16_t, uint8_t, int16_t, int16_t, int16_t, int16_t, int16_t, int16_t, int16_t, int16_t)	64	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/./mavlink_msg_command_long.h:87:24:uint16_t mavlink_msg_command_long_pack(uint8_t, uint8_t, mavlink_message_t*, uint8_t, uint8_t, uint16_t, uint8_t, float, float, float, float, float, float, float)	64	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/./mavlink_msg_command_ack.h:67:24:uint16_t mavlink_msg_command_ack_pack(uint8_t, uint8_t, mavlink_message_t*, uint16_t, uint8_t, uint8_t, int32_t, uint8_t, uint8_t)	40	static
+../Drivers/autopilot/mavlinkio/./../mavlink/common/../standard/../minimal/./mavlink_msg_heartbeat.h:66:24:uint16_t mavlink_msg_heartbeat_pack(uint8_t, uint8_t, mavlink_message_t*, uint8_t, uint8_t, uint8_t, uint32_t, uint8_t)	40	static
+../Drivers/autopilot/mavlinkio/MavlinkSender.cpp:11:5:mavlinkio::MavlinkSender::MavlinkSender(uart::UartTxQueue&)	16	static
+../Drivers/autopilot/mavlinkio/MavlinkSender.cpp:16:10:void mavlinkio::MavlinkSender::sendHeartbeat(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint32_t, uint8_t)	336	static
+../Drivers/autopilot/mavlinkio/MavlinkSender.cpp:38:10:void mavlinkio::MavlinkSender::sendManualControl(uint8_t, int16_t, int16_t, int16_t, int16_t)	392	static
+../Drivers/autopilot/mavlinkio/MavlinkSender.cpp:65:10:void mavlinkio::MavlinkSender::sendArmCommand(uint8_t, bool)	352	static
+../Drivers/autopilot/mavlinkio/MavlinkSender.cpp:91:10:void mavlinkio::MavlinkSender::ack(uint16_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)	344	static
+../Drivers/autopilot/mavlinkio/MavlinkSender.cpp:116:10:void mavlinkio::MavlinkSender::sendMessage(const mavlink_message_t&)	288	static

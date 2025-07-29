@@ -2,6 +2,8 @@
 #include "../Quaternion.hpp"
 #include <cmath>
 
+using namespace math;
+
 bool isClose(double a, double b, double eps = 1e-4) {
     return std::abs(a - b) < eps;
 }

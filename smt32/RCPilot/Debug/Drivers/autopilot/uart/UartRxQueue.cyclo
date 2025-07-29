@@ -1,0 +1,5 @@
+../Drivers/autopilot/uart/UartRxQueue.cpp:6:10:void uart::UartRxQueue::onByteReceived(uint8_t)	2
+../Drivers/autopilot/uart/UartRxQueue.cpp:22:10:bool uart::UartRxQueue::pollByte(uint8_t&)	2
+../Drivers/autopilot/uart/UartRxQueue.cpp:34:10:bool uart::UartRxQueue::hasOverflowed() const	1
+../Drivers/autopilot/uart/UartRxQueue.cpp:39:10:void uart::UartRxQueue::clearOverflowFlag()	1
+../Drivers/autopilot/uart/UartRxQueue.cpp:44:14:uint32_t uart::UartRxQueue::getOverflowCount() const	1

@@ -1,6 +1,8 @@
 #include "../UartRxQueue.hpp"
 #include <gtest/gtest.h>
 
+using namespace uart;
+
 class UartRxQueueTest : public ::testing::Test {
 protected:
     UartRxQueue queue;
